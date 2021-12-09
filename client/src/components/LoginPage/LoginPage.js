@@ -1,6 +1,8 @@
 import TransparentFooter from "components/Footer/TransparentFooter";
+import { userLogin } from "components/JS/actions/userActions";
 import ExamplesNavbar from "components/NavBar/ExamplesNavbar";
-import React from "react";
+import { useDispatch } from "react-redux";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 // reactstrap components
@@ -22,8 +24,13 @@ import {
 // core components
 
 function LoginPage() {
-  const [firstFocus, setFirstFocus] = React.useState(false);
-  const [lastFocus, setLastFocus] = React.useState(false);
+  const [firstFocus, setFirstFocus] = useState(false);
+  const [lastFocus, setLastFocus] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
+
   React.useEffect(() => {
     document.body.classList.add("login-page");
     document.body.classList.add("sidebar-collapse");
@@ -35,6 +42,18 @@ function LoginPage() {
       document.body.classList.remove("sidebar-collapse");
     };
   }, []);
+
+  const login = (e) => {
+    e.preventDefault();
+
+    dispatch(
+      userLogin({
+        email,
+        password,
+      })
+    );
+  };
+
   return (
     <>
       <ExamplesNavbar />
@@ -76,6 +95,8 @@ function LoginPage() {
                         type="email"
                         onFocus={() => setFirstFocus(true)}
                         onBlur={() => setFirstFocus(false)}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                       ></Input>
                     </InputGroup>
                     <InputGroup
@@ -94,6 +115,8 @@ function LoginPage() {
                         type="password"
                         onFocus={() => setLastFocus(true)}
                         onBlur={() => setLastFocus(false)}
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
                       ></Input>
                     </InputGroup>
                   </CardBody>
@@ -102,8 +125,8 @@ function LoginPage() {
                       block
                       className="btn-round"
                       color="info"
-                      onClick={(e) => e.preventDefault()}
                       size="lg"
+                      onClick={(e) => login(e)}
                     >
                       Get Started
                     </Button>
