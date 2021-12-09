@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
 // reactstrap components
 import {
   Button,
@@ -16,10 +17,38 @@ import {
   Container,
   Row,
 } from "reactstrap";
+import { userRegiter } from "components/JS/actions/userActions";
 
 // core components
 
-function SignUp() {
+const SignUp = () => {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [adress, setAdress] = useState("");
+  const [password, setPassword] = useState("");
+
+  const dispatch = useDispatch();
+
+  const addUser = (e) => {
+    e.preventDefault();
+
+    const newUser = {
+      fullName,
+      email,
+      adress,
+      password,
+    };
+
+    if (fullName === "" || email === "" || adress === "" || password === "")
+      return alert("Missing some inputs");
+    dispatch(userRegiter(newUser));
+
+    setFullName("");
+    setAdress("");
+    setPassword("");
+    setEmail("");
+  };
+
   return (
     <>
       <div
@@ -44,16 +73,12 @@ function SignUp() {
                     <Button
                       className="btn-neutral btn-icon btn-round"
                       color="facebook"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
                     >
                       <i className="fab fa-facebook-square"></i>
                     </Button>
                     <Button
                       className="btn-neutral btn-icon btn-round"
                       color="twitter"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
                       size="lg"
                     >
                       <i className="fab fa-twitter"></i>
@@ -61,8 +86,6 @@ function SignUp() {
                     <Button
                       className="btn-neutral btn-icon btn-round"
                       color="google"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
                     >
                       <i className="fab fa-google-plus"></i>
                     </Button>
@@ -75,7 +98,12 @@ function SignUp() {
                         <i className="now-ui-icons users_circle-08"></i>
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="First Name..." type="text"></Input>
+                    <Input
+                      placeholder="Full name..."
+                      type="text"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                    ></Input>
                   </InputGroup>
                   <InputGroup className={"no-border"}>
                     <InputGroupAddon addonType="prepend">
@@ -83,7 +111,12 @@ function SignUp() {
                         <i className="now-ui-icons text_caps-small"></i>
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Last Name..." type="text"></Input>
+                    <Input
+                      placeholder="Email..."
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                    ></Input>
                   </InputGroup>
                   <InputGroup className={"no-border"}>
                     <InputGroupAddon addonType="prepend">
@@ -91,7 +124,12 @@ function SignUp() {
                         <i className="now-ui-icons ui-1_email-85"></i>
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Email..." type="email"></Input>
+                    <Input
+                      placeholder="Adress ...."
+                      type="text"
+                      value={adress}
+                      onChange={(e) => setAdress(e.target.value)}
+                    ></Input>
                   </InputGroup>
                   <InputGroup className={"no-border"}>
                     <InputGroupAddon addonType="prepend">
@@ -99,16 +137,20 @@ function SignUp() {
                         <i className="now-ui-icons ui-1_lock-circle-open"></i>
                       </InputGroupText>
                     </InputGroupAddon>
-                    <Input placeholder="Password..." type="password"></Input>
+                    <Input
+                      placeholder="Password..."
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                    ></Input>
                   </InputGroup>
                 </CardBody>
                 <CardFooter className="text-center">
                   <Button
                     className="btn-neutral btn-round"
                     color="info"
-                    href="#pablo"
-                    onClick={(e) => e.preventDefault()}
                     size="lg"
+                    onClick={(e) => addUser(e)}
                   >
                     Get Started
                   </Button>
@@ -132,6 +174,6 @@ function SignUp() {
       </div>
     </>
   );
-}
+};
 
 export default SignUp;
