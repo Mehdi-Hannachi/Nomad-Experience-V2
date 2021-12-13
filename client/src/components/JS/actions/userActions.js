@@ -3,6 +3,10 @@ import axios from "axios";
 /********* *******************    User register action creator ********************************** */
 
 import {
+  GET_PROFILE,
+  GET_PROFILE_FAILED,
+  GET_PROFILE_SUCCESS,
+  LOG_OUT,
   USER_LOGIN,
   USER_LOGIN_FAILED,
   USER_LOGIN_SUCCESS,
@@ -38,3 +42,29 @@ export const userLogin = (payload) => async (dispatch) => {
 };
 
 /********* *******************    Get profile action creator ********************************** */
+
+export const getProfile = () => async (dispatch) => {
+  dispatch({ type: GET_PROFILE });
+
+  const config = {
+    headers: {
+      Authorization: localStorage.getItem("token"),
+    },
+  };
+
+  try {
+    const res = await axios.get("/user/currentUser", config);
+
+    dispatch({ type: GET_PROFILE_SUCCESS, payload: res.data });
+  } catch (error) {
+    console.log("Get profile error", error);
+    dispatch({ type: GET_PROFILE_FAILED, payload: error.res });
+  }
+};
+
+/*******************************  Log Out ********** */
+
+export const logOut = () => (dispatch) => {
+  dispatch({ type: LOG_OUT });
+  localStorage.removeItem("token");
+};

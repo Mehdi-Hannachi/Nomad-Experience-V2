@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 // reactstrap components
 import {
@@ -22,6 +22,8 @@ import { userRegiter } from "components/JS/actions/userActions";
 // core components
 
 const SignUp = () => {
+  const history = useHistory();
+
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [adress, setAdress] = useState("");
@@ -42,6 +44,8 @@ const SignUp = () => {
     if (fullName === "" || email === "" || adress === "" || password === "")
       return alert("Missing some inputs");
     dispatch(userRegiter(newUser));
+
+    history.push("/login-page");
 
     setFullName("");
     setAdress("");

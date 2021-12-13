@@ -5,7 +5,7 @@ import { Container } from "reactstrap";
 
 // core components
 
-function ProfilePageHeader() {
+function ProfilePageHeader({ user }) {
   let pageHeader = React.createRef();
 
   React.useEffect(() => {
@@ -39,7 +39,7 @@ function ProfilePageHeader() {
           <div className="photo-container">
             <img alt="..." src={require("assets/img/ryan.jpg").default}></img>
           </div>
-          <h3 className="title">Ryan Scheinder</h3>
+          <h3 className="title">{user && user.fullName}</h3>
           <p className="category">Photographer</p>
           <div className="content">
             <div className="social-description">
