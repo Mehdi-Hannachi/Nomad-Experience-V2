@@ -1,6 +1,9 @@
 import DefaultFooter from "components/Footer/DefaultFooter";
+import userReducer from "components/JS/reducers/userReducer";
 import ExamplesNavbar from "components/NavBar/ExamplesNavbar";
 import React from "react";
+
+import { useSelector } from "react-redux";
 
 // reactstrap components
 import {
@@ -19,9 +22,13 @@ import ProfilePageHeader from "./ProfilePageHeader";
 
 // core components
 
-
-function ProfilePage() {
+const ProfilePage = () => {
   const [pills, setPills] = React.useState("2");
+
+  const user = useSelector((state) => state.userReducer.user);
+
+  console.log(user);
+
   React.useEffect(() => {
     document.body.classList.add("profile-page");
     document.body.classList.add("sidebar-collapse");
@@ -37,7 +44,7 @@ function ProfilePage() {
     <>
       <ExamplesNavbar />
       <div className="wrapper">
-        <ProfilePageHeader />
+        <ProfilePageHeader user={user} />
         <div className="section">
           <Container>
             <div className="button-container">
@@ -221,6 +228,6 @@ function ProfilePage() {
       </div>
     </>
   );
-}
+};
 
 export default ProfilePage;
